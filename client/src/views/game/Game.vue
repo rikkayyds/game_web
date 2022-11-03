@@ -17,7 +17,8 @@ import { useRouter,useRoute } from 'vue-router';
 const router = useRouter()
 const route = useRoute()
 let menus = [
-    {name:"Shade Dog",href:"/game/shade_dog"},
+    {name:"首页",href:"/"},
+    {name:"Shade Dog",href:"/game/364289964318789"},
 ]
 const toPage = (menu)=>{
     router.push(menu.href)

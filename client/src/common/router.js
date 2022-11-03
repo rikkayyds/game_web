@@ -13,7 +13,7 @@ let routes = [
     {
         path:"/game",component:()=>import("../views/game/Game.vue"),
         children:[
-            {path:"/game/shade_dog",component:()=>import("../views/game/ShadeDog.vue")},
+            {path:"/game/364289964318789",component:()=>import("../views/game/ShadeDog.vue")},
         ]
     },
 

@@ -1,9 +1,9 @@
 <template>
     <n-tabs v-model:value="tabValue" justify-content="start" type="line" animated>
         <n-tab-pane name="list" tab="评论列表">
-            <div v-for="(comment,index) in commentList" style="margin-botton:15px">
-                <n-card :title="comment.title">
-                    {{comment.content}}
+            <div v-for="(comment,index) in commentList" style="margin-bottom:15px">
+                <n-card :title="comment.title" class="comment">
+                    <div v-html="comment.content"></div>
                     <template #footer>
                         <n-space align="center" justify="space-between">
                             <div>
@@ -88,7 +88,7 @@ const tabValue = ref("list")
 
 const pageInfo = reactive({
     page:1,
-    pageSize:4,
+    pageSize:3,
     pageCount:0,
     count:0,
 })
@@ -200,6 +200,11 @@ const toDelete = async (comment)=>{
 
 </script>
 
+<style>
+.comment img{
+    max-width: 100% !important;
+}
+</style>
 <style lang="scss" scoped>
 
 </style>

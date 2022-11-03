@@ -109,4 +109,52 @@ router.post("/upload",(req,res)=>{
 
 })
 
+router.get("/search",async (req,res)=>{
+    let {keyword,page,pageSize} = req.query
+    page = page == null ? 1 : page
+    pageSize = pageSize == null ? 10 : pageSize
+    keyword = keyword == null ? "" : keyword
+
+    let params = []
+    let whereSqls = []
+    
+    if (keyword != ""){
+        whereSqls.push(" (`name` LIKE ? OR `info` LIKE ?) ")
+        params.push("%"+keyword+"%")
+        params.push("%"+keyword+"%")
+    }
+    let whereSqlStr = ""
+    if (whereSqls.length>0){
+        whereSqlStr = " WHERE " + whereSqls.join(" AND ")
+    }
+
+    let searchSql = " SELECT `id`,`name`,substr(`info`,0,20) AS `info` FROM `category`"+whereSqlStr+" ORDER BY `id` DESC LIMIT ?,? "
+    let searchSqlParams = params.concat([(page-1)*pageSize,pageSize])
+
+    let searchCountSql = " SELECT count(*) as `count` FROM `category` "+whereSqlStr;
+    let searchCountParams = params
+
+    let searchResult = await db.async.all(searchSql,searchSqlParams)
+    let countResult = await db.async.all(searchCountSql,searchCountParams)
+
+    if (searchResult.err == null && countResult.err==null){
+        res.send({
+            code:200,
+            msg:"查询成功",
+            data:{
+                keyword,
+                page,
+                pageSize,
+                rows:searchResult.rows,
+                count:countResult.rows[0].count
+            }
+        })
+    }else{
+        res.send({
+            code: 500,
+            msg:"查询失败"
+        })
+    }
+})
+
 module.exports = router

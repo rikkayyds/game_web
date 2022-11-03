@@ -7,8 +7,7 @@ export class InputHandle{
             if (    e.key === 'ArrowDown' || 
                     e.key === 'ArrowUp' ||
                     e.key === 'ArrowLeft' ||
-                    e.key === 'ArrowRight' ||
-                    e.key === 'a'
+                    e.key === 'ArrowRight'
                 ) {
                 e.preventDefault();
             }

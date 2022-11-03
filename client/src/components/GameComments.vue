@@ -4,7 +4,7 @@
             <n-card>
                 <div v-for="(comment,index) in commentList" style="margin-bottom:15px;">
                     <n-card :title="comment.title">
-                        {{comment.content}}
+                        <div v-html="comment.content"></div>
                         <template #footer>
                             <n-space align="center" justify="space-between">
                                 <div>
@@ -17,6 +17,9 @@
                     </n-card>
                 </div> 
             </n-card>
+            <n-space>
+                <n-pagination @update:page="loadComments" v-model:page="pageInfo.page" :page-count="pageInfo.pageCount" />   
+            </n-space>
         </n-collapse-item>
         <n-collapse-item title="我要评论" name="2">
             <n-card>
@@ -31,7 +34,7 @@
                         <n-rate v-model:value="addComment.score" />
                     </n-form-item>
                     <n-form-item>   
-                        <rich-text-editor></rich-text-editor>
+                        <rich-text-editor v-model="addComment.content"></rich-text-editor>
                     </n-form-item>
                     <n-form-item label="">
                         <n-button @click="add">提交</n-button>
@@ -62,7 +65,7 @@ const commentList = ref([])
 
 const pageInfo = reactive({
     page:1,
-    pageSize:4,
+    pageSize:1,
     pageCount:0,
     count:0,
 })
@@ -99,6 +102,7 @@ const addComment = reactive({
 })
 
 const add = async ()=>{
+    console.log(addComment)
     if(addComment.title==""){
         message.error("标题不能为空")
         return
